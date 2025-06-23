@@ -24,44 +24,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      // "@/*": ["./src/*"]
-      "@/app/*": ["./src/app/*"],
-      "@/components/*": [
-        "./src/components/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@/pages/*": [
-        "./src/pages/*"
-      ],
-      "@/styles/*": [
-        "./src/styles/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ],
-      "@/utils/*": [
-        "./src/utils/*"
-      ],
-      "@/public/*": [
-        "./public/*"
-      ],
-      "@/assets/*": [
-        "./src/assets/*"
-      ],
-      "@/config/*": [
-        "./src/config/*"
-      ],
-      "@/context/*": [
-        "./src/context/*"
-      ],
-      "@/services/*": [
-        "./src/services/*"
-      ],
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
