@@ -72,23 +72,6 @@ export interface Product {
   updatedAt: string
 }
 
-export interface ProductVariant {
-  id: string
-  color: string
-  size: string
-  price: number
-  stock: number
-  sku: string
-  imageUrl: string
-}
-
-export interface ProductImage {
-  id: string
-  url: string
-  isThumbnail: boolean
-  sortOrder: number
-}
-
 export interface Order {
   id: string
   orderNumber: string
@@ -148,39 +131,4 @@ export interface DashboardStats {
   lowStockItems: number
   pendingOrders: number
   recentOrders: Order[]
-}
-
-
-export interface CategorySummary {
-  id: string
-  name: string
-  description: string
-}
-
-export interface ProductVariant {
-  id: string
-  color: string
-  size: string
-  price: number
-  stock: number
-  sku: string
-  imageUrl: string
-}
-
-export interface ProductImage {
-  id: string
-  url: string
-  isThumbnail: boolean
-  sortOrder: number
-}
-
-export interface ProductDetails {
-  id: string
-  name: string
-  description: string
-  category: CategorySummary
-  variants: ProductVariant[]
-  images: ProductImage[]
-  createdAt: number[]
-  updatedAt: number[] | null
 }
