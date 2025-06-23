@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
+
+import { useSession, signOut } from "next-auth/react";
+
 
 export default function Header() {
   const { data: session } = useSession();
@@ -42,13 +44,19 @@ export default function Header() {
           </Link>
         )}
         {session ? (
-          <button onClick={() => signOut()} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+          <button
+            onClick={() => signOut()}
+            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+          >
             Sign out
           </button>
         ) : (
-          <button onClick={() => signIn("github") } className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+          <Link
+            href="/login"
+            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+          >
             Sign in
-          </button>
+          </Link>
         )}
       </nav>
     </header>
