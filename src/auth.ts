@@ -1,3 +1,4 @@
+
 import NextAuth, { type DefaultSession, type NextAuthConfig } from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Credentials from "next-auth/providers/credentials"
@@ -16,7 +17,6 @@ declare module "next-auth" {
     password?: string | null
   }
 }
-
 const config = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "database" },
