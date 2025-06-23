@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { ProductDetails, ProductVariant } from "@/types/type";
-import { Star, Heart, ShoppingCart, Loader2 } from "lucide-react";
+import { Star, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -74,34 +74,29 @@ export default function ProductPage() {
     if (id) fetchProduct();
   }, [id]);
 
-  // Đồng bộ hình ảnh chính và thumbnail
   useEffect(() => {
     if (carouselApiRef.current) {
-      // @ts-ignore
       carouselApiRef.current.scrollTo(selectedImageIndex, true);
     }
   }, [selectedImageIndex]);
 
-  // Cập nhật selectedImageIndex khi carousel tự động chuyển
   useEffect(() => {
     if (carouselApiRef.current) {
       const onSelect = () => {
-        // @ts-ignore
+        // @ts-expect-error : carouselApiRef.current.selectedScrollSnap is not typed
         setSelectedImageIndex(carouselApiRef.current.selectedScrollSnap());
       };
-      // @ts-ignore
       carouselApiRef.current.on("select", onSelect);
       return () => {
-        // @ts-ignore
-        carouselApiRef.current.off("select", onSelect);
+        if (carouselApiRef.current) {
+          carouselApiRef.current.off("select", onSelect);
+        }
       };
     }
   }, []);
 
-  // Xử lý khi chọn variant
   const handleVariantSelect = (variant: ProductVariant) => {
     setSelectedVariant(variant);
-    // Tìm index của ảnh variant trong displayImages
     const variantImageIndex = displayImages.findIndex(
       (img) => img.id === `variant-${variant.id}`
     );

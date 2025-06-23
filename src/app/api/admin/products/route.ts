@@ -1,12 +1,10 @@
 "use server";
+import type { ProductSummarizeResponse, ProductSummary } from "@/types/type";
 import { NextResponse } from "next/server";
-import type { Product, ProductDetails, ProductSummarizeResponse, ProductSummary } from "@/types/type";
-import prisma from "@/lib/prisma";
-import { log } from "console";
 
 
 export async function GET() {
-    const res = await fetch("http://192.168.1.58:8080/api/products");
+    const res = await fetch(`${process.env.BACKEND_URL}/api/products`);
     if (!res.ok) {
         return NextResponse.json({ error: "Failed to fetch products" }, { status: res.status });
     }
@@ -17,10 +15,33 @@ export async function GET() {
 
     return NextResponse.json(products);
 
-    // const res = await prisma.product.findMany();
-    // if (!res) {
-    //     return NextResponse.json({ error: "No products found" }, { status: 404 });
-    // }
-    // log(res)
-    // return NextResponse.json(res as unknown as Product[]);
+}
+export async function POST(request: Request) {
+    try {
+        // Đọc JSON payload từ client
+        const payload = await request.json();
+
+        // Forward request sang backend
+        const res = await fetch(`${process.env.BACKEND_URL}/api/products`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            return NextResponse.json(
+                { error: 'Failed to create product' },
+                { status: res.status }
+            );
+        }
+
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (err: any) {
+        console.error('Error in API route:', err);
+        return NextResponse.json(
+            { error: err.message || 'Internal Server Error' },
+            { status: 500 }
+        );
+    }
 }

@@ -1,13 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Package, ShoppingCart, Warehouse, BarChart3, Menu, X, Settings, Users, Bell } from 'lucide-react'
+import {
+  BarChart3,
+  Bell,
+  Menu,
+  Package,
+  Settings,
+  ShoppingCart,
+  Users,
+  Warehouse,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: BarChart3 },
@@ -16,15 +25,15 @@ const navigation = [
   { name: "Warehouse", href: "/admin/warehouse", icon: Warehouse },
   { name: "Customers", href: "/admin/customers", icon: Users },
   { name: "Settings", href: "/admin/settings", icon: Settings },
-]
+];
 
 interface AdminLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const pathname = usePathname()
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
 
   const Sidebar = ({ mobile = false }: { mobile?: boolean }) => (
     <div className="flex h-full flex-col">
@@ -34,7 +43,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <nav className="flex flex-1 flex-col px-4 pb-4">
         <ul className="flex flex-1 flex-col gap-y-1">
           {navigation.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = pathname === item.href;
             return (
               <li key={item.name}>
                 <Link
@@ -50,12 +59,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   {item.name}
                 </Link>
               </li>
-            )
+            );
           })}
         </ul>
       </nav>
     </div>
-  )
+  );
 
   return (
     <div className="flex h-screen bg-background">
@@ -109,10 +118,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
-  )
+  );
 }
