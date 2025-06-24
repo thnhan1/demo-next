@@ -28,7 +28,6 @@
     "next": "15.3.4",
     "next-auth": "5.0.0-beta.29",
     "prisma": "^6.10.1",
-    "prisma-adapter: ^2.9.1": "link:@auth/prisma-adapter: ^2.9.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.3.1",
