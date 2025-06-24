@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/header";
 import { auth } from "@/auth";
 import SessionProvider from "@/components/session-provider";
+import ReduxProvider from "@/store/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SessionProvider session={session}>
-          <Header />
-          {children}
-        </SessionProvider>
+        <ReduxProvider>
+          <SessionProvider session={session}>
+            <Header />
+            {children}
+          </SessionProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

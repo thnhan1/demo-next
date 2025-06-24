@@ -34,6 +34,7 @@ model Product {
   category    Category?        @relation(fields: [categoryId], references: [id])
   images      ProductImage[]
   variants    ProductVariant[]
+  cartItems   CartItem[]
 
   @@map("product")
 }
@@ -79,6 +80,7 @@ model User {
   role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
+  carts         Cart[]
 
   @@map("user")
 }
@@ -122,4 +124,30 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_token")
+}
+
+model Cart {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String?    @map("user_id") @db.Uuid
+  user      User?      @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  @@map("cart")
+}
+
+model CartItem {
+  id        String   @id @default(uuid()) @db.Uuid
+  cartId    String   @map("cart_id") @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  quantity  Int
+  price     Decimal  @db.Decimal(38, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+  @@map("cart_item")
 }
