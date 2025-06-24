@@ -48,7 +48,7 @@ export default function ProductPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://192.168.1.58:8080/api/products/${id}`);
+        const res = await fetch(`http://192.168.1.115:8080/api/products/${id}`);
         if (!res.ok) throw new Error("Không tìm thấy sản phẩm");
         const data: ProductDetails = await res.json();
         setProduct(data);

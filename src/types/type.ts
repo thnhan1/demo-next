@@ -1,59 +1,59 @@
 export interface CategorySummary {
-    id: string;
-    name: string;
-    description: string;
+  id: string;
+  name: string;
+  description: string;
 }
 
 export interface ProductSummary {
-    id: string;
-    name: string;
-    description: string;
-    category: CategorySummary;
-    minPrice: number;
-    maxPrice: number;
-    totalStock: number;
-    thumbnailUrl: string;
-    variantCount: number;
+  id: string;
+  name: string;
+  description: string;
+  category: CategorySummary;
+  minPrice: number;
+  maxPrice: number;
+  totalStock: number;
+  thumbnailUrl: string;
+  variantCount: number;
 }
 
 export interface ProductSummarizeResponse {
-    content: ProductSummary[];
-    pageNumber: number;
-    pageSize: number;
-    totalElements: number;
-    totalPages: number;
-    first: boolean;
-    last: boolean;
-    empty: boolean;
+  content: ProductSummary[];
+  pageNumber: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
 }
 
 
 export interface ProductVariant {
-    id: string;
-    color: string;
-    size: string;
-    price: number;
-    stock: number;
-    sku: string;
-    imageUrl: string;
+  id: string;
+  color: string;
+  size: string;
+  price: number;
+  stock: number;
+  sku: string;
+  imageUrl: string;
 }
 
 export interface ProductImage {
-    id: string;
-    url: string;
-    isThumbnail: boolean;
-    sortOrder: number;
+  id: string;
+  url: string;
+  isThumbnail: boolean;
+  sortOrder: number;
 }
 
 export interface ProductDetails {
-    id: string;
-    name: string;
-    description: string;
-    category: CategorySummary;
-    variants: ProductVariant[];
-    images: ProductImage[];
-    createdAt: number[];
-    updatedAt: number[] | null;
+  id: string;
+  name: string;
+  description: string;
+  category: CategorySummary;
+  variants: ProductVariant[];
+  images: ProductImage[];
+  createdAt: number[];
+  updatedAt: number[] | null;
 }
 
 

@@ -3,7 +3,7 @@ CREATE TYPE "Role" AS ENUM ('GUEST', 'USER', 'ADMIN');
 
 -- CreateTable
 CREATE TABLE "category" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" TEXT,
     "description" TEXT,
 
@@ -12,48 +12,48 @@ CREATE TABLE "category" (
 
 -- CreateTable
 CREATE TABLE "product" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" TEXT,
     "description" TEXT,
     "created_at" TIMESTAMP(3),
     "updated_at" TIMESTAMP(3),
-    "category_id" TEXT,
+    "category_id" UUID,
 
     CONSTRAINT "product_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "product_image" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "url" TEXT,
     "is_thumbnail" BOOLEAN,
     "sort_order" INTEGER,
-    "product_id" TEXT NOT NULL,
+    "product_id" UUID NOT NULL,
 
     CONSTRAINT "product_image_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "product_variant" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "color" TEXT,
     "image_url" TEXT,
     "price" DECIMAL(38,2),
     "size" TEXT,
     "sku" TEXT,
     "stock" INTEGER,
-    "product_id" TEXT NOT NULL,
+    "product_id" UUID NOT NULL,
 
     CONSTRAINT "product_variant_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "user" (
-    "id" TEXT NOT NULL,
-    "name" TEXT,
+    "id" UUID NOT NULL,
     "email" TEXT,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
+    "password" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
@@ -61,11 +61,11 @@ CREATE TABLE "user" (
 
 -- CreateTable
 CREATE TABLE "account" (
-    "id" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "user_id" UUID NOT NULL,
     "type" TEXT NOT NULL,
     "provider" TEXT NOT NULL,
-    "provider_account_id" TEXT NOT NULL,
+    "provider_account_id" UUID NOT NULL,
     "refresh_token" TEXT,
     "access_token" TEXT,
     "expires_at" INTEGER,
@@ -81,9 +81,9 @@ CREATE TABLE "account" (
 
 -- CreateTable
 CREATE TABLE "session" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "session_token" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
+    "user_id" UUID NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "session_pkey" PRIMARY KEY ("id")

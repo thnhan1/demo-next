@@ -36,9 +36,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
 
   const Sidebar = ({ mobile = false }: { mobile?: boolean }) => (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col" role="dialog" aria-labelledby="admin-panel-title">
       <div className="flex h-16 shrink-0 items-center px-4">
-        <h1 className="text-xl font-bold">Admin Panel</h1>
+        <h1 id="admin-panel-title" className="text-xl font-bold">Admin Panel</h1>
       </div>
       <nav className="flex flex-1 flex-col px-4 pb-4">
         <ul className="flex flex-1 flex-col gap-y-1">
@@ -54,8 +54,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
+                  aria-current={isActive ? "page" : undefined}
+                  role="menuitem"
                 >
-                  <item.icon className="h-5 w-5 shrink-0" />
+                  <item.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
                   {item.name}
                 </Link>
               </li>

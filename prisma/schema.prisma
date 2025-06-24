@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   // output   = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
@@ -15,7 +16,7 @@ datasource db {
 }
 
 model Category {
-  id          String    @id @default(uuid())
+  id          String    @id @default(uuid()) @db.Uuid
   name        String?
   description String?
   products    Product[]
@@ -24,12 +25,12 @@ model Category {
 }
 
 model Product {
-  id          String           @id @default(uuid())
+  id          String           @id @default(uuid()) @db.Uuid
   name        String?
   description String?
   createdAt   DateTime?        @map("created_at")
   updatedAt   DateTime?        @map("updated_at")
-  categoryId  String?          @map("category_id")
+  categoryId  String?          @map("category_id") @db.Uuid
   category    Category?        @relation(fields: [categoryId], references: [id])
   images      ProductImage[]
   variants    ProductVariant[]
@@ -38,26 +39,26 @@ model Product {
 }
 
 model ProductImage {
-  id           String   @id @default(uuid())
-  url          String?
-  isThumbnail  Boolean? @map("is_thumbnail")
-  sortOrder    Int?     @map("sort_order")
-  productId    String   @map("product_id")
-  product      Product  @relation(fields: [productId], references: [id])
+  id          String   @id @default(uuid()) @db.Uuid
+  url         String?
+  isThumbnail Boolean? @map("is_thumbnail")
+  sortOrder   Int?     @map("sort_order")
+  productId   String   @map("product_id") @db.Uuid
+  product     Product  @relation(fields: [productId], references: [id])
 
   @@map("product_image")
 }
 
 model ProductVariant {
-  id         String   @id @default(uuid())
-  color      String?
-  imageUrl   String?  @map("image_url")
-  price      Decimal? @db.Decimal(38, 2)
-  size       String?
-  sku        String?
-  stock      Int?
-  productId  String   @map("product_id")
-  product    Product  @relation(fields: [productId], references: [id])
+  id        String   @id @default(uuid()) @db.Uuid
+  color     String?
+  imageUrl  String?  @map("image_url")
+  price     Decimal? @db.Decimal(38, 2)
+  size      String?
+  sku       String?
+  stock     Int?
+  productId String   @map("product_id") @db.Uuid
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@map("product_variant")
 }
@@ -69,13 +70,13 @@ enum Role {
 }
 
 model User {
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid()) @db.Uuid
   name          String?
-  email         String?  @unique
+  email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
   password      String?
-  role          Role     @default(USER)
+  role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
 
@@ -83,31 +84,31 @@ model User {
 }
 
 model Account {
-  id                String  @id @default(uuid())
-  userId            String  @map("user_id")
-  type              String
-  provider          String
-  providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-  oauth_token       String? @db.Text
+  id                 String  @id @default(uuid()) @db.Uuid
+  userId             String  @map("user_id") @db.Uuid
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id") @db.Uuid
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  oauth_token        String? @db.Text
   oauth_token_secret String? @db.Text
 
-  user   User  @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
-  @@map("account")
   @@unique([provider, providerAccountId])
+  @@map("account")
 }
 
 model Session {
-  id           String   @id @default(uuid())
+  id           String   @id @default(uuid()) @db.Uuid
   sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
+  userId       String   @map("user_id") @db.Uuid
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
 
@@ -119,6 +120,6 @@ model VerificationToken {
   token      String   @unique
   expires    DateTime
 
-  @@map("verification_token")
   @@unique([identifier, token])
+  @@map("verification_token")
 }

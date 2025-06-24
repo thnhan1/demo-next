@@ -5,11 +5,14 @@ export async function getCategories(): Promise<CategorySummary[]> {
     try {
         const categories = await prisma.category.findMany();
 
-        const mappedCategories: CategorySummary[] = categories.map((cat) => ({
-            id: cat.id,
-            name: cat.name ?? "",
-            description: cat.description ?? "",
-        }));
+        const mappedCategories: CategorySummary[] = categories.map((cat: unknown) => {
+            const { id, name, description } = cat as { id: string; name: string; description: string };
+            return {
+                id,
+                name: name ?? "",
+                description: description ?? "",
+            };
+        });
 
         return mappedCategories;
     }
