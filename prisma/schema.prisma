@@ -37,6 +37,7 @@ model Product {
   cartItems   CartItem[]
 
   @@map("product")
+  OrderItem OrderItem[]
 }
 
 model ProductImage {
@@ -83,6 +84,7 @@ model User {
   carts         Cart[]
 
   @@map("user")
+  Order Order[]
 }
 
 model Account {
@@ -150,4 +152,39 @@ model CartItem {
 
   @@unique([cartId, productId])
   @@map("cart_item")
+}
+
+model Order {
+  id        String       @id @default(uuid()) @db.Uuid
+  userId    String       @map("user_id") @db.Uuid
+  user      User         @relation(fields: [userId], references: [id])
+  items     OrderItem[]
+  payment   Payment?
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String    @id @default(uuid()) @db.Uuid
+  orderId   String    @map("order_id") @db.Uuid
+  productId String    @map("product_id") @db.Uuid
+  quantity  Int
+  price     Decimal   @db.Decimal(38, 2)
+  order     Order     @relation(fields: [orderId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+
+  @@map("order_item")
+}
+
+model Payment {
+  id             String   @id @default(uuid()) @db.Uuid
+  orderId        String   @unique @map("order_id") @db.Uuid
+  order          Order    @relation(fields: [orderId], references: [id])
+  paymentMethod  String   @map("payment_method")
+  paymentStatus  String   @map("payment_status")
+  paidAt         DateTime @map("paid_at")
+
+  @@map("payment")
 }

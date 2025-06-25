@@ -1,5 +1,7 @@
 "use client";
 
+import { useAppDispatch } from "@/store/hooks";
+import { addItem } from "@/store/cartSlice";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -24,6 +26,7 @@ export default function ProductPage() {
   const params = useParams();
   const id = params?.id as string;
 
+  const dispatch = useAppDispatch();
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
     null
@@ -48,7 +51,9 @@ export default function ProductPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://192.168.1.115:8080/api/products/${id}`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`
+        );
         if (!res.ok) throw new Error("Không tìm thấy sản phẩm");
         const data: ProductDetails = await res.json();
         setProduct(data);
@@ -106,7 +111,16 @@ export default function ProductPage() {
   };
 
   const handleAddToCart = () => {
-    if (selectedVariant) {
+    if (selectedVariant && product) {
+      dispatch(
+        addItem({
+          productId: selectedVariant.id,
+          name: `${product.name} (${selectedVariant.color})`,
+          image: selectedVariant.imageUrl,
+          price: selectedVariant.price,
+          quantity: quantity,
+        })
+      );
       alert(
         `Đã thêm ${quantity} x ${product?.name} (${selectedVariant.color}) vào giỏ hàng.`
       );
